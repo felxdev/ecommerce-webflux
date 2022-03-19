@@ -29,7 +29,36 @@
       <artifactId>${project.parent.artifactId}-application</artifactId>
       <version>0.0.1-SNAPSHOT</version>
     </dependency>
+
   </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>io.swagger.codegen.v3</groupId>
+        <artifactId>swagger-codegen-maven-plugin</artifactId>
+        <version>3.0.25</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <inputSpec>${project.basedir}/src/main/resources/ecommerce-webflux-api.yaml</inputSpec>
+              <language>spring</language>
+              <output>${project.build.directory}/generated-sources/</output>
+              <generateSupportingFiles>false</generateSupportingFiles>
+              <apiPackage>${project.groupId}.api.rest.controllers.v1</apiPackage>
+              <modelPackage>${project.groupId}.api.rest.dtos.v1</modelPackage>
+              <configOptions>
+                <interfaceOnly>true</interfaceOnly>
+              </configOptions>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
 
   <!--<build>
     <plugins>
