@@ -10,7 +10,7 @@ paths:
   /v1/rate:
     post:
       tags:
-      - rates
+      - rate
       summary: Create a new rate
       operationId: addRate
       requestBody:

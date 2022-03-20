@@ -75,14 +75,15 @@
               <goal>unpack-dependencies</goal>
             </goals>
             <configuration>
-              <includeGroupIds>es.dominioncommercial.bff.contracts</includeGroupIds>
-              <includeArtifactIds>bff-contracts-api-rest</includeArtifactIds>
+              <includeGroupIds>es.felix.ecommerce</includeGroupIds>
+              <includeArtifactIds>ecommerce-webflux-api-rest</includeArtifactIds>
               <includes>**\/*.yaml, **\/*.yml</includes>
-              <outputDirectory>${project.build.directory}/api/bff-contracts-api-rest</outputDirectory>
+              <outputDirectory>${project.build.directory}/api/ecommerce-webflux-api-rest</outputDirectory>
             </configuration>
           </execution>
         </executions>
       </plugin>
+
       <plugin>
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-maven-plugin</artifactId>
@@ -91,6 +92,20 @@
           <supportingFilesToGenerate>
             ApiUtil.java
           </supportingFilesToGenerate>
+          <configOptions>
+            <interfaceOnly>true</interfaceOnly>
+            <delegatePattern>true</delegatePattern>
+            <reactive>true</reactive>
+            <serializableModel>true</serializableModel>
+            <generateModelTests>true</generateModelTests>
+            <generateApiTests>true</generateApiTests>
+            <useBeanValidation>true</useBeanValidation>
+            <performBeanValidation>true</performBeanValidation>
+            <additionalProperties>
+              <additionalProperty>modelNamePrefix=Dto</additionalProperty>
+            </additionalProperties>
+            <useTags>true</useTags>
+          </configOptions>
         </configuration>
         <executions>
           <execution>

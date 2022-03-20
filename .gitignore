@@ -15,3 +15,5 @@ ecommerce-webflux-domain/target/ecommerce-webflux-domain-0.0.1-SNAPSHOT.jar
 ecommerce-webflux-domain/target/maven-archiver/pom.properties
 *.jar
 *.lst
+*.class
+ecommerce-webflux-api-rest/target/maven-archiver/pom.properties
