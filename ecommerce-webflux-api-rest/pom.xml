@@ -30,43 +30,67 @@
       <version>0.0.1-SNAPSHOT</version>
     </dependency>
 
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-boot-starter</artifactId>
+      <version>3.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>io.swagger.parser.v3</groupId>
+      <artifactId>swagger-parser-v3</artifactId>
+      <version>2.0.30</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>${hibernate-validator.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.openapitools</groupId>
+      <artifactId>jackson-databind-nullable</artifactId>
+      <version>0.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.openapitools</groupId>
+      <artifactId>openapi-generator</artifactId>
+      <version>5.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
   </dependencies>
+
   <build>
     <plugins>
       <plugin>
-        <groupId>io.swagger.codegen.v3</groupId>
-        <artifactId>swagger-codegen-maven-plugin</artifactId>
-        <version>3.0.25</version>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.1.2</version>
         <executions>
           <execution>
+            <id>unpack-contracts-api</id>
+            <phase>generate-sources</phase>
             <goals>
-              <goal>generate</goal>
+              <goal>unpack-dependencies</goal>
             </goals>
             <configuration>
-              <inputSpec>${project.basedir}/src/main/resources/ecommerce-webflux-api.yaml</inputSpec>
-              <language>spring</language>
-              <output>${project.build.directory}/generated-sources/</output>
-              <generateSupportingFiles>false</generateSupportingFiles>
-              <apiPackage>${project.groupId}.api.rest.controllers.v1</apiPackage>
-              <modelPackage>${project.groupId}.api.rest.dtos.v1</modelPackage>
-              <configOptions>
-                <interfaceOnly>true</interfaceOnly>
-              </configOptions>
+              <includeGroupIds>es.dominioncommercial.bff.contracts</includeGroupIds>
+              <includeArtifactIds>bff-contracts-api-rest</includeArtifactIds>
+              <includes>**\/*.yaml, **\/*.yml</includes>
+              <outputDirectory>${project.build.directory}/api/bff-contracts-api-rest</outputDirectory>
             </configuration>
           </execution>
         </executions>
       </plugin>
-    </plugins>
-  </build>
-
-
-  <!--<build>
-    <plugins>
       <plugin>
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-maven-plugin</artifactId>
         <configuration>
           <generatorName>spring</generatorName>
+          <supportingFilesToGenerate>
+            ApiUtil.java
+          </supportingFilesToGenerate>
         </configuration>
         <executions>
           <execution>
@@ -76,7 +100,7 @@
               <goal>generate</goal>
             </goals>
             <configuration>
-              <inputSpec>${project.basedir}/src/main/resources/ecommerce-webflux-api.yml</inputSpec>
+              <inputSpec>${project.basedir}/src/main/resources/ecommerce-webflux-api.yaml</inputSpec>
               <configOptions>
                 <sourceFolder>ecommerce-webflux-api-rest</sourceFolder>
                 <apiPackage>${project.groupId}.api.rest.controllers.v1</apiPackage>
@@ -88,5 +112,5 @@
         </executions>
       </plugin>
     </plugins>
-  </build>-->
+  </build>
 </project>

@@ -1,1 +1,17 @@
 .idea/
+ecommerce-webflux-api-rest/target/classes/ecommerce-webflux-api.yaml
+ecommerce-webflux-api-rest/target/generated-sources/openapi/.openapi-generator/ecommerce-webflux-api.yaml-generate-objects.sha256
+ecommerce-webflux-api-rest/target/generated-sources/openapi/.openapi-generator/FILES
+ecommerce-webflux-api-rest/target/generated-sources/openapi/.openapi-generator/VERSION
+ecommerce-webflux-api-rest/target/generated-sources/openapi/ecommerce-webflux-api-rest/ecommerce/webflux/service/app/api/rest/controllers/v1/ApiUtil.java
+ecommerce-webflux-api-rest/target/generated-sources/openapi/ecommerce-webflux-api-rest/ecommerce/webflux/service/app/api/rest/controllers/v1/V1Api.java
+ecommerce-webflux-api-rest/target/generated-sources/openapi/ecommerce-webflux-api-rest/ecommerce/webflux/service/app/api/rest/controllers/v1/V1ApiController.java
+ecommerce-webflux-api-rest/target/generated-sources/openapi/ecommerce-webflux-api-rest/ecommerce/webflux/service/app/api/rest/dtos/v1/Rate.java
+ecommerce-webflux-api-rest/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+ecommerce-webflux-api-rest/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+ecommerce-webflux-application/target/ecommerce-webflux-application-0.0.1-SNAPSHOT.jar
+ecommerce-webflux-application/target/maven-archiver/pom.properties
+ecommerce-webflux-domain/target/ecommerce-webflux-domain-0.0.1-SNAPSHOT.jar
+ecommerce-webflux-domain/target/maven-archiver/pom.properties
+*.jar
+*.lst
