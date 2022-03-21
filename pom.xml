@@ -22,6 +22,31 @@
     <java.version>17</java.version>
   </properties>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>ecommerce-webflux-domain</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>ecommerce-webflux-application</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>ecommerce-webflux-infrastructure</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>ecommerce-webflux-api-rest</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -109,6 +134,7 @@
     <module>${project.artifactId}-application</module>
     <module>${project.artifactId}-boot</module>
     <module>${project.artifactId}-infrastructure</module>
+    <module>ecommerce-webflux-clients</module>
   </modules>
 
 </project>
