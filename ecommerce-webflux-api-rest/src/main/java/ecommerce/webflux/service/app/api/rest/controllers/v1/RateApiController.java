@@ -21,8 +21,7 @@ import reactor.core.publisher.Mono;
 public class RateApiController implements RateApi{
 
   @Override
-  public Mono<ResponseEntity<Flux<Rate>>> addRate(Mono<Rate> rate,
-      ServerWebExchange exchange) {
+  public Mono<ResponseEntity<Rate>> addRate(Mono<Rate> rate, ServerWebExchange exchange) {
     return RateApi.super.addRate(rate, exchange);
   }
 }
