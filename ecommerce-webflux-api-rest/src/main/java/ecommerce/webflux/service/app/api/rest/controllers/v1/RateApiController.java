@@ -1,6 +1,8 @@
 package ecommerce.webflux.service.app.api.rest.controllers.v1;
 
+import ecommerce.webflux.app.application.commands.RequestRateCommandHandler;
 import ecommerce.webflux.service.app.api.rest.dtos.v1.RateDto;
+import ecommerce.webflux.service.app.domain.model.Rate;
 import java.time.OffsetDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,12 +18,23 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*",
   methods = {
-      RequestMethod.POST
+      RequestMethod.GET,
+      RequestMethod.DELETE,
+      RequestMethod.POST,
+      RequestMethod.PUT
   })
 public class RateApiController implements RateApi{
 
+  private final RateDtoMapper rateDtoMapper;
+
+  private final RequestRateCommandHandler requestRateCommandHandler;
+
   @Override
   public Mono<ResponseEntity<RateDto>> addRate(Mono<RateDto> rateDto, ServerWebExchange exchange) {
+    log.debug("Add rate from {}", rateDto);
+    Mono<Rate> rate = rateDtoMapper.asRate(rateDto);
+
+    this.requestRateCommandHandler.executeAndReturn(rate);
     return RateApi.super.addRate(rateDto, exchange);
   }
 
