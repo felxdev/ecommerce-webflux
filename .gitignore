@@ -20,3 +20,5 @@ ecommerce-webflux-domain/target/*
 ecommerce-webflux-api-rest/target/maven-archiver/pom.properties
 *.iml
 ecommerce-webflux-api-rest/target/generated-sources/openapi/ecommerce-webflux-api-rest/ecommerce/webflux/service/app/api/rest/controllers/v1/RateApi.java
+ecommerce-webflux-boot/target/
+ecommerce-webflux-infrastructure/target/maven-archiver/pom.properties
