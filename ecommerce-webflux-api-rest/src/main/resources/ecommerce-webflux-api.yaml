@@ -27,7 +27,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Rate'
+                $ref: '#/components/schemas/RateDto'
         400:
           description: Invalid id supplied
           content: {}
@@ -52,7 +52,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Rate'
+              $ref: '#/components/schemas/RateDto'
         required: true
       responses:
         200:
@@ -60,7 +60,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Rate'
+                $ref: '#/components/schemas/RateDto'
         400:
           description: Invalid id supplied
           content: {}
@@ -125,7 +125,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Rate'
+                $ref: '#/components/schemas/RateDto'
         400:
           description: Invalid id brand or product
           content: {}
@@ -145,7 +145,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Rate'
+              $ref: '#/components/schemas/RateDto'
         required: true
       responses:
         201:
@@ -153,7 +153,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Rate'
+                $ref: '#/components/schemas/RateDto'
         422:
           description: Invalid price or currency code format
           content: {}
@@ -162,7 +162,7 @@ paths:
           content: {}
 components:
   schemas:
-    Rate:
+    RateDto:
       type: object
       properties:
         id:

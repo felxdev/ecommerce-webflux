@@ -1,6 +1,6 @@
 package ecommerce.webflux.service.app.api.rest.controllers.v1;
 
-import ecommerce.webflux.service.app.api.rest.dtos.v1.Rate;
+import ecommerce.webflux.service.app.api.rest.dtos.v1.RateDto;
 import java.time.OffsetDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,23 +21,23 @@ import reactor.core.publisher.Mono;
 public class RateApiController implements RateApi{
 
   @Override
-  public Mono<ResponseEntity<Rate>> addRate(Mono<Rate> rate, ServerWebExchange exchange) {
-    return RateApi.super.addRate(rate, exchange);
+  public Mono<ResponseEntity<RateDto>> addRate(Mono<RateDto> rateDto, ServerWebExchange exchange) {
+    return RateApi.super.addRate(rateDto, exchange);
   }
 
   @Override
-  public Mono<ResponseEntity<Rate>> findRateById(String id, ServerWebExchange exchange) {
+  public Mono<ResponseEntity<RateDto>> findRateById(String id, ServerWebExchange exchange) {
     return RateApi.super.findRateById(id, exchange);
   }
 
   @Override
-  public Mono<ResponseEntity<Rate>> findRateByProductAndBrand(OffsetDateTime startDate, String brandId, String productId,
+  public Mono<ResponseEntity<RateDto>> findRateByProductAndBrand(OffsetDateTime startDate, String brandId, String productId,
       ServerWebExchange exchange) {
     return RateApi.super.findRateByProductAndBrand(startDate, brandId, productId, exchange);
   }
 
   @Override
-  public Mono<ResponseEntity<Rate>> updateRateById(String id, Mono<Rate> body, ServerWebExchange exchange) {
+  public Mono<ResponseEntity<RateDto>> updateRateById(String id, Mono<RateDto> body, ServerWebExchange exchange) {
     return RateApi.super.updateRateById(id, body, exchange);
   }
 
