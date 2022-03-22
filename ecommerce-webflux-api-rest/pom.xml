@@ -6,6 +6,7 @@
     <artifactId>ecommerce-webflux</artifactId>
     <groupId>ecommerce.webflux.service.app</groupId>
     <version>0.0.1-SNAPSHOT</version>
+    <relativePath>..</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -63,27 +64,6 @@
 
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>3.1.2</version>
-        <executions>
-          <execution>
-            <id>unpack-contracts-api</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>unpack-dependencies</goal>
-            </goals>
-            <configuration>
-              <includeGroupIds>es.felix.ecommerce</includeGroupIds>
-              <includeArtifactIds>ecommerce-webflux-api-rest</includeArtifactIds>
-              <includes>**\/*.yaml, **\/*.yml</includes>
-              <outputDirectory>${project.build.directory}/api/ecommerce-webflux-api-rest</outputDirectory>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
       <plugin>
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-maven-plugin</artifactId>

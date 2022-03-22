@@ -1,0 +1,13 @@
+version: '3.3'
+services:
+  dbRates:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: rateservicedb
+    ports:
+    - "5432:5432"
+    volumes:
+    - ./postgreSQL/init-db.sql:/docker-entrypoint-initdb.d/init.sql

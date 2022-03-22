@@ -8,7 +8,6 @@ import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValueMappingStrategy;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Mono;
 
 @Component
 @Mapper(collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED,
@@ -20,7 +19,5 @@ public interface RateDtoMapper {
 
   Rate rateDtoToRate(RateDto rateDto);
 
-  default Mono<Rate> asRate(Mono<RateDto> rateDto){
-    return rateDto.map(this::rateDtoToRate);
-  }
+  RateDto rateToRateDto(Rate rate);
 }

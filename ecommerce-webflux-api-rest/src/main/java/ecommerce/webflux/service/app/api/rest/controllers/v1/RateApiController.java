@@ -3,6 +3,7 @@ package ecommerce.webflux.service.app.api.rest.controllers.v1;
 import ecommerce.webflux.app.application.commands.RequestRateCommandHandler;
 import ecommerce.webflux.service.app.api.rest.dtos.v1.RateDto;
 import ecommerce.webflux.service.app.domain.model.Rate;
+import java.net.URI;
 import java.time.OffsetDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,11 +32,13 @@ public class RateApiController implements RateApi{
 
   @Override
   public Mono<ResponseEntity<RateDto>> addRate(Mono<RateDto> rateDto, ServerWebExchange exchange) {
-    log.debug("Add rate from {}", rateDto);
-    Mono<Rate> rate = rateDtoMapper.asRate(rateDto);
 
-    this.requestRateCommandHandler.executeAndReturn(rate);
-    return RateApi.super.addRate(rateDto, exchange);
+    return rateDto.map(rateDtoMapper::rateDtoToRate)
+        .map(requestRateCommandHandler::executeAndReturn)
+        .map(rateDtoMapper::rateToRateDto)
+        .map(rDto -> ResponseEntity
+            .created(URI.create(String.format("/v1/rate/%s", rDto.getId())))
+            .body(rDto));
   }
 
   @Override
