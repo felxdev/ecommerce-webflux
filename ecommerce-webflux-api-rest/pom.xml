@@ -31,13 +31,13 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>${project.parent.groupId}</groupId>
-      <artifactId>${project.parent.artifactId}-domain</artifactId>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>${project.parent.artifactId}-infrastructure</artifactId>
       <version>0.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>${project.parent.groupId}</groupId>
-      <artifactId>${project.parent.artifactId}-application</artifactId>
+      <artifactId>${project.parent.artifactId}-domain</artifactId>
       <version>0.0.1-SNAPSHOT</version>
     </dependency>
 
@@ -66,16 +66,6 @@
       <groupId>org.openapitools</groupId>
       <artifactId>openapi-generator</artifactId>
       <version>5.2.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>ch.qos.logback</groupId>
-          <artifactId>logback-classic</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
   </dependencies>
 
