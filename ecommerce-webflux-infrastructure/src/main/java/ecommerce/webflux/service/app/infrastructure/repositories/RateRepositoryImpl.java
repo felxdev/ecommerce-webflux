@@ -1,27 +1,37 @@
 package ecommerce.webflux.service.app.infrastructure.repositories;
 
 import ecommerce.webflux.service.app.domain.model.Rate;
-import ecommerce.webflux.service.app.infrastructure.repositories.r2dbc.RateRepositoryR2dbcImpl;
 import ecommerce.webflux.service.app.repositories.RateRepository;
+import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Mono;
 
-@Slf4j
 @RequiredArgsConstructor
 @Repository
 public class RateRepositoryImpl implements RateRepository {
 
 
-  private final RateRepositoryR2dbcImpl rateRepositoryR2dbc;
+  private final RateRepositoryR2dbc rateRepositoryR2dbc;
 
   @Override
-  public Rate save(Rate rateData) {
-    return null;
+  public Mono<Rate> save(Rate rateData) {
+    return rateRepositoryR2dbc.save(rateData);
   }
 
   @Override
-  public Rate findById(String id) {
-    return null;
+  public Mono<Rate> findById(String id) {
+    return rateRepositoryR2dbc.findById(id);
   }
+
+  @Override
+  public Mono<Rate> findByProductAndBrandId(String productId, String brandId, LocalDate date) {
+    return rateRepositoryR2dbc.findByProductIdAndBrandIdAndBirthDateAfter(productId, brandId, date);
+  }
+
+  @Override
+  public Mono<Void> delete(String id) {
+    return rateRepositoryR2dbc.deleteById(id);
+  }
+
 }

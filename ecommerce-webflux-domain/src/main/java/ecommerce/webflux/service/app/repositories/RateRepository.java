@@ -1,10 +1,16 @@
 package ecommerce.webflux.service.app.repositories;
 
 import ecommerce.webflux.service.app.domain.model.Rate;
+import java.time.LocalDate;
+import reactor.core.publisher.Mono;
 
 public interface RateRepository {
 
-  Rate save(Rate rateData);
+  Mono<Rate> save(Rate rateData);
 
-  Rate findById(String id);
+  Mono<Rate> findById(String id);
+
+  Mono<Rate> findByProductAndBrandId(String productId, String brandId, LocalDate date);
+
+  Mono<Void> delete(String id);
 }

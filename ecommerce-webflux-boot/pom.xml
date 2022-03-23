@@ -12,6 +12,13 @@
 
   <artifactId>${project.parent.artifactId}-boot</artifactId>
 
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>${project.parent.artifactId}-api-rest</artifactId>
+    </dependency>
+  </dependencies>
+
   <properties>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
