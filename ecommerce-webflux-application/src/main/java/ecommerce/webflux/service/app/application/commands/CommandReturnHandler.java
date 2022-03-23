@@ -1,4 +1,4 @@
-package ecommerce.webflux.app.application.commands;
+package ecommerce.webflux.service.app.application.commands;
 
 public interface CommandReturnHandler<T, V> extends CommandHandler<T> {
 

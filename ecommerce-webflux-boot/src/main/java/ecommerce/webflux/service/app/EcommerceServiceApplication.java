@@ -1,4 +1,4 @@
-package es.felix.ecommerce;
+package ecommerce.webflux.service.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

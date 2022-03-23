@@ -1,4 +1,4 @@
-package ecommerce.webflux.app.application.commands;
+package ecommerce.webflux.service.app.application.commands;
 
 import ecommerce.webflux.service.app.repositories.RateRepository;
 import lombok.RequiredArgsConstructor;

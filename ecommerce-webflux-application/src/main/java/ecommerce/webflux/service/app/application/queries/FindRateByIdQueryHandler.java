@@ -1,4 +1,4 @@
-package ecommerce.webflux.app.application.queries;
+package ecommerce.webflux.service.app.application.queries;
 
 import ecommerce.webflux.service.app.domain.model.Rate;
 import ecommerce.webflux.service.app.repositories.RateRepository;
@@ -8,12 +8,12 @@ import reactor.core.publisher.Mono;
 
 @Component
 @RequiredArgsConstructor
-public class FindRateByProductBrandIdQueryHandler implements QueryHandler<FindRateByProductBrandIdQuery, Mono<Rate>>{
+public class FindRateByIdQueryHandler implements QueryHandler<FindRateByIdQuery, Mono<Rate>>{
 
   private final RateRepository rateRepository;
 
   @Override
-  public Mono<Rate> execute(FindRateByProductBrandIdQuery query) {
-    return rateRepository.findByProductAndBrandId(query.getProductId(), query.getBrandId(), query.getDate());
+  public Mono<Rate> execute(FindRateByIdQuery query) {
+    return this.rateRepository.findById(query.getRateId());
   }
 }

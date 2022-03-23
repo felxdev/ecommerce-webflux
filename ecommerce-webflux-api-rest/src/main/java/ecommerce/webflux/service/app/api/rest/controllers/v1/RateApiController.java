@@ -1,11 +1,11 @@
 package ecommerce.webflux.service.app.api.rest.controllers.v1;
 
-import ecommerce.webflux.app.application.commands.DeleteRateByIdCommandHandler;
-import ecommerce.webflux.app.application.commands.RequestRateCommandHandler;
-import ecommerce.webflux.app.application.queries.FindRateByIdQuery;
-import ecommerce.webflux.app.application.queries.FindRateByIdQueryHandler;
-import ecommerce.webflux.app.application.queries.FindRateByProductBrandIdQuery;
-import ecommerce.webflux.app.application.queries.FindRateByProductBrandIdQueryHandler;
+import ecommerce.webflux.service.app.application.commands.DeleteRateByIdCommandHandler;
+import ecommerce.webflux.service.app.application.commands.RequestRateCommandHandler;
+import ecommerce.webflux.service.app.application.queries.FindRateByIdQuery;
+import ecommerce.webflux.service.app.application.queries.FindRateByIdQueryHandler;
+import ecommerce.webflux.service.app.application.queries.FindRateByProductBrandIdQuery;
+import ecommerce.webflux.service.app.application.queries.FindRateByProductBrandIdQueryHandler;
 import ecommerce.webflux.service.app.api.rest.dtos.v1.RateDto;
 import java.net.URI;
 import java.time.LocalDate;

@@ -26,7 +26,7 @@ public class RateRepositoryImpl implements RateRepository {
 
   @Override
   public Mono<Rate> findByProductAndBrandId(String productId, String brandId, LocalDate date) {
-    return rateRepositoryR2dbc.findByProductIdAndBrandIdAndBirthDateAfter(productId, brandId, date);
+    return rateRepositoryR2dbc.findByProductIdAndBrandIdAndStartDateAfter(productId, brandId, date);
   }
 
   @Override

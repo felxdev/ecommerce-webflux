@@ -1,4 +1,4 @@
-package ecommerce.webflux.app.application.queries;
+package ecommerce.webflux.service.app.application.queries;
 
 import lombok.Builder;
 import lombok.Data;

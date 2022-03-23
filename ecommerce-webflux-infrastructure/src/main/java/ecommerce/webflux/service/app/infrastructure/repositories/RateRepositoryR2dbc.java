@@ -9,5 +9,5 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface RateRepositoryR2dbc extends ReactiveCrudRepository<Rate, String> {
 
-  Mono<Rate> findByProductIdAndBrandIdAndBirthDateAfter(String productId, String brandId, LocalDate date);
+  Mono<Rate> findByProductIdAndBrandIdAndStartDateAfter(String productId, String brandId, LocalDate date);
 }
