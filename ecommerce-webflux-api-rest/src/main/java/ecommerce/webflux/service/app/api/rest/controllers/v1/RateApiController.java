@@ -7,10 +7,12 @@ import ecommerce.webflux.service.app.application.queries.FindRateByIdQuery;
 import ecommerce.webflux.service.app.application.queries.FindRateByIdQueryHandler;
 import ecommerce.webflux.service.app.application.queries.FindRatesByProductBrandIdQuery;
 import ecommerce.webflux.service.app.application.queries.FindRatesByProductBrandIdQueryHandler;
+import ecommerce.webflux.service.app.domain.model.Rate;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -80,6 +82,19 @@ public class RateApiController implements RateApi{
 
   @Override
   public Mono<ResponseEntity<RateDto>> updateRateById(String id, Mono<RateDto> body, ServerWebExchange exchange) {
-    return RateApi.super.updateRateById(id, body, exchange);
+
+    Mono<Rate> rateDb = findRateByIdQueryHandler.execute(FindRateByIdQuery.builder().rateId(id).build());
+    Mono<Rate> rate = body.map(rateDtoMapper::rateDtoToRate);
+
+    return rateDb.zipWith(rate, (db, req) -> {
+
+      BeanUtils.copyProperties(req, db);
+      return db;
+
+    }).flatMap(requestRateCommandHandler::executeAndReturn)
+        .map(rateDtoMapper::rateToRateDto)
+        .map(rateDto -> ResponseEntity.created(URI.create(String.format("/v1/rate/%s", rateDto.getId())))
+            .body(rateDto))
+        .defaultIfEmpty(ResponseEntity.notFound().build());
   }
 }
