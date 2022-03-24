@@ -2,6 +2,8 @@ package ecommerce.webflux.service.app.api.rest.controllers.v1;
 
 import ecommerce.webflux.service.app.api.rest.dtos.v1.RateDto;
 import ecommerce.webflux.service.app.domain.model.Rate;
+import java.time.LocalDate;
+import javax.validation.constraints.NotNull;
 import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValueCheckStrategy;
@@ -18,6 +20,13 @@ public interface RateDtoMapper {
   RateDtoMapper INSTANCE = Mappers.getMapper(RateDtoMapper.class);
 
   Rate rateDtoToRate(RateDto rateDto);
+
+  default Rate asRate(@NotNull RateDto rateDto){
+
+    rateDto.setStartDate(LocalDate.now());
+
+    return rateDtoToRate(rateDto);
+  }
 
   RateDto rateToRateDto(Rate rate);
 }

@@ -2,17 +2,23 @@ package ecommerce.webflux.service.app.domain.model;
 
 import java.time.LocalDate;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
 @Data
+@Table(value = "myschema.t_rates")
 public class Rate {
 
-  private String id;
+  @Id
+  private Integer id;
 
-  private String brandId;
+  private Integer brandId;
 
-  private String productId;
+  private Integer productId;
 
   private LocalDate startDate;
+
+  private LocalDate endDate;
 
   private Integer price;
 

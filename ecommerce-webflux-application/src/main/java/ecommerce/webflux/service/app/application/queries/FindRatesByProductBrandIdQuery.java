@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class FindRateByProductBrandIdQuery implements Query {
+public class FindRatesByProductBrandIdQuery implements Query {
 
   private String brandId;
 

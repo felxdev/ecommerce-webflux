@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class DeleteRateByIdCommandHandler implements CommandReturnHandler<String, Mono<Void>>{
 
-  RateRepository rateRepository;
+  private final RateRepository rateRepository;
 
   @Override
   public void execute(String rateId) {

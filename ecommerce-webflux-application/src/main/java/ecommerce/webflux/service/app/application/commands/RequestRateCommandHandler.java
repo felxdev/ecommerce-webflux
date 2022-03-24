@@ -15,8 +15,8 @@ public class RequestRateCommandHandler implements CommandReturnHandler<Rate, Mon
   private final RateRepository rateRepository;
 
   @Override
-  public void execute(Rate command) {
-    this.executeAndReturn(command);
+  public void execute(Rate rate) {
+    this.executeAndReturn(rate);
   }
 
   @Override

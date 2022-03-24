@@ -1,27 +1,26 @@
 package ecommerce.webflux.service.app.api.rest.controllers.v1;
 
+import ecommerce.webflux.service.app.api.rest.dtos.v1.RateDto;
 import ecommerce.webflux.service.app.application.commands.DeleteRateByIdCommandHandler;
 import ecommerce.webflux.service.app.application.commands.RequestRateCommandHandler;
 import ecommerce.webflux.service.app.application.queries.FindRateByIdQuery;
 import ecommerce.webflux.service.app.application.queries.FindRateByIdQueryHandler;
-import ecommerce.webflux.service.app.application.queries.FindRateByProductBrandIdQuery;
-import ecommerce.webflux.service.app.application.queries.FindRateByProductBrandIdQueryHandler;
-import ecommerce.webflux.service.app.api.rest.dtos.v1.RateDto;
+import ecommerce.webflux.service.app.application.queries.FindRatesByProductBrandIdQuery;
+import ecommerce.webflux.service.app.application.queries.FindRatesByProductBrandIdQueryHandler;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import lombok.RequiredArgsConstructor;
-import lombok.With;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@With
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*",
   methods = {
@@ -36,7 +35,7 @@ public class RateApiController implements RateApi{
 
   private final FindRateByIdQueryHandler findRateByIdQueryHandler;
 
-  private final FindRateByProductBrandIdQueryHandler findRateByProductBrandIdQueryHandler;
+  private final FindRatesByProductBrandIdQueryHandler findRatesByProductBrandIdQueryHandler;
 
   private final RequestRateCommandHandler requestRateCommandHandler;
 
@@ -45,7 +44,7 @@ public class RateApiController implements RateApi{
   @Override
   public Mono<ResponseEntity<RateDto>> addRate(Mono<RateDto> rateDto, ServerWebExchange exchange) {
 
-    return rateDto.map(rateDtoMapper::rateDtoToRate)
+    return rateDto.map(rateDtoMapper::asRate)
         .flatMap(requestRateCommandHandler::executeAndReturn)
         .map(rateDtoMapper::rateToRateDto)
         .map(rDto -> ResponseEntity
@@ -63,13 +62,12 @@ public class RateApiController implements RateApi{
   }
 
   @Override
-  public Mono<ResponseEntity<RateDto>> findRateByProductAndBrand(OffsetDateTime startDate, String brandId, String productId,
+  public Mono<ResponseEntity<Flux<RateDto>>> findRateByProductAndBrand(OffsetDateTime startDate, String brandId, String productId,
       ServerWebExchange exchange) {
 
-    return findRateByProductBrandIdQueryHandler.execute(FindRateByProductBrandIdQuery.builder()
-            .date(LocalDate.from(startDate)).brandId(brandId).productId(productId).build())
-        .map(rateDtoMapper::rateToRateDto)
-        .map(rate -> ResponseEntity.ok().body(rate))
+    return Mono.just(ResponseEntity.ok().body(findRatesByProductBrandIdQueryHandler
+            .execute(FindRatesByProductBrandIdQuery.builder().date(LocalDate.from(startDate)).brandId(brandId).productId(productId).build())
+        .map(rateDtoMapper::rateToRateDto)))
         .defaultIfEmpty(ResponseEntity.notFound().build());
   }
 

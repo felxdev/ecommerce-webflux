@@ -4,10 +4,10 @@ import ecommerce.webflux.service.app.domain.model.Rate;
 import java.time.LocalDate;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
-import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
 
 @Repository
 public interface RateRepositoryR2dbc extends ReactiveCrudRepository<Rate, String> {
 
-  Mono<Rate> findByProductIdAndBrandIdAndStartDateAfter(String productId, String brandId, LocalDate date);
+  Flux<Rate> findByProductIdAndBrandIdAndStartDateAfter(String productId, String brandId, LocalDate date);
 }
