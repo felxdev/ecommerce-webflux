@@ -8,11 +8,16 @@ import ecommerce.webflux.service.app.application.queries.FindRateByIdQueryHandle
 import ecommerce.webflux.service.app.application.queries.FindRatesByProductBrandIdQuery;
 import ecommerce.webflux.service.app.application.queries.FindRatesByProductBrandIdQueryHandler;
 import ecommerce.webflux.service.app.domain.model.Rate;
+import java.beans.PropertyDescriptor;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -88,13 +93,28 @@ public class RateApiController implements RateApi{
 
     return rateDb.zipWith(rate, (db, req) -> {
 
-      BeanUtils.copyProperties(req, db);
+      BeanUtils.copyProperties(req, db, getNullPropertyNames(req));
       return db;
 
     }).flatMap(requestRateCommandHandler::executeAndReturn)
         .map(rateDtoMapper::rateToRateDto)
-        .map(rateDto -> ResponseEntity.created(URI.create(String.format("/v1/rate/%s", rateDto.getId())))
+        .map(rateDto -> ResponseEntity.ok()
             .body(rateDto))
         .defaultIfEmpty(ResponseEntity.notFound().build());
+  }
+
+  private String[] getNullPropertyNames(Rate req) {
+    final BeanWrapper src = new BeanWrapperImpl(req);
+    var pds = src.getPropertyDescriptors();
+
+    Set<String> emptyNames = new HashSet<>();
+
+    for(PropertyDescriptor pd : pds) {
+      var srcValue = src.getPropertyValue(pd.getName());
+      if (srcValue == null) emptyNames.add(pd.getName());
+    }
+
+    var result = new String[emptyNames.size()];
+    return emptyNames.toArray(result);
   }
 }
