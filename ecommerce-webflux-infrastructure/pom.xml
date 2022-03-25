@@ -20,6 +20,11 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>${project.parent.artifactId}-clients-rest</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
       <groupId>${project.parent.groupId}</groupId>
       <artifactId>${project.parent.artifactId}-domain</artifactId>
       <version>0.0.1-SNAPSHOT</version>

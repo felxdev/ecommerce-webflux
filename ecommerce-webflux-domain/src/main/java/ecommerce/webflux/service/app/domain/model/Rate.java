@@ -20,7 +20,7 @@ public class Rate {
 
   private LocalDate endDate;
 
-  private Integer price;
+  private Amount price;
 
   private String currencyCode;
 }

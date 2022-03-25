@@ -188,10 +188,25 @@ components:
           description: Rate service end date in YYYY-mm-dd format
           format: date
           example: "2021-12-24"
-        price:
-          type: integer
-          description: Product price without decimals
-          example: 324
+        amount:
+          type: object
+          properties:
+            value:
+              type: integer
+              description: monetary value
+              example: 1888
+            decimals:
+              type: integer
+              description: decimal
+              example: 2
+            code:
+              type: string
+              description: ISO 4217 currency CODE
+              example: EUR
+            symbol:
+              type: string
+              description: Symbol currency
+              example: €
         currencyCode:
           type: string
           description: ID of the currency in which the price is represented
@@ -200,5 +215,5 @@ components:
       - brandId
       - productId
       - endDate
-      - price
+      - amount
       - currencyCode

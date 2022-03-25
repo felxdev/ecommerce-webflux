@@ -184,7 +184,7 @@
     <module>${project.artifactId}-application</module>
     <module>${project.artifactId}-boot</module>
     <module>${project.artifactId}-infrastructure</module>
-    <module>ecommerce-webflux-clients</module>
+    <module>${project.artifactId}-clients-rest</module>
   </modules>
 
 </project>
