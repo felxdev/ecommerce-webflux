@@ -166,6 +166,12 @@ components:
   schemas:
     Rate:
       type: object
+      required:
+      - brandId
+      - productId
+      - endDate
+      - amount
+      - currencyCode
       properties:
         id:
           type: string
@@ -188,32 +194,28 @@ components:
           description: Rate service end date in YYYY-mm-dd format
           format: date
           example: "2021-12-24"
-        amount:
-          type: object
-          properties:
-            value:
-              type: integer
-              description: monetary value
-              example: 1888
-            decimals:
-              type: integer
-              description: decimal
-              example: 2
-            code:
-              type: string
-              description: ISO 4217 currency CODE
-              example: EUR
-            symbol:
-              type: string
-              description: Symbol currency
-              example: €
         currencyCode:
           type: string
           description: ID of the currency in which the price is represented
           example: EUR
-      required:
-      - brandId
-      - productId
-      - endDate
-      - amount
-      - currencyCode
+        amount:
+          $ref: '#/components/schemas/Amount'
+    Amount:
+      type: object
+      properties:
+        value:
+          type: integer
+          description: monetary value
+          example: 1888
+        decimals:
+          type: integer
+          description: decimal
+          example: 2
+        code:
+          type: string
+          description: ISO 4217 currency CODE
+          example: EUR
+        symbol:
+          type: string
+          description: Symbol currency
+          example: €

@@ -69,7 +69,7 @@ import ecommerce.webflux.service.app.clients.invokers.v1.auth.HttpBasicAuth;
 import ecommerce.webflux.service.app.clients.invokers.v1.auth.HttpBearerAuth;
 import ecommerce.webflux.service.app.clients.invokers.v1.auth.ApiKeyAuth;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-03-25T15:38:32.959582100+01:00[Europe/Madrid]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2022-03-26T15:13:13.517311300+01:00[Europe/Madrid]")
 public class ApiClient extends JavaTimeFormatter {
     public enum CollectionFormat {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);

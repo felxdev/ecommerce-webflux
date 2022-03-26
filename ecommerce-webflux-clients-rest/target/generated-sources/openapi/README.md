@@ -4,7 +4,7 @@ Currency Api
 
 - API version: 1.0
 
-- Build date: 2022-03-25T15:38:32.959582100+01:00[Europe/Madrid]
+- Build date: 2022-03-26T15:13:13.517311300+01:00[Europe/Madrid]
 
 Handle the info about currencies in platform
 

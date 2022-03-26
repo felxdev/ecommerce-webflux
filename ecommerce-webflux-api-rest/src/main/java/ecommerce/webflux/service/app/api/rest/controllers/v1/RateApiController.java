@@ -1,5 +1,7 @@
 package ecommerce.webflux.service.app.api.rest.controllers.v1;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+
 import ecommerce.webflux.service.app.api.rest.dtos.v1.RateDto;
 import ecommerce.webflux.service.app.application.commands.DeleteRateByIdCommandHandler;
 import ecommerce.webflux.service.app.application.commands.RequestRateCommandHandler;
@@ -19,6 +21,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -72,8 +75,11 @@ public class RateApiController implements RateApi{
   public Mono<ResponseEntity<Flux<RateDto>>> findRateByProductAndBrand(OffsetDateTime startDate, String brandId, String productId,
       ServerWebExchange exchange) {
 
-    return Mono.just(ResponseEntity.ok().body(findRatesByProductBrandIdQueryHandler
-            .execute(FindRatesByProductBrandIdQuery.builder().date(LocalDate.from(startDate)).brandId(brandId).productId(productId).build())
+    return Mono.just(
+        ResponseEntity.ok()
+            .body(findRatesByProductBrandIdQueryHandler.execute(
+                FindRatesByProductBrandIdQuery.builder()
+                    .date(LocalDate.from(startDate)).brandId(brandId).productId(productId).build())
         .map(rateDtoMapper::rateToRateDto)))
         .defaultIfEmpty(ResponseEntity.notFound().build());
   }
