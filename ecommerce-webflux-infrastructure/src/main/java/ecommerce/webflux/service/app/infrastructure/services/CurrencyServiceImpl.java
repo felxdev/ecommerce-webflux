@@ -3,6 +3,7 @@ package ecommerce.webflux.service.app.infrastructure.services;
 import ecommerce.webflux.service.app.clients.controllers.v1.CurrenciesApi;
 import ecommerce.webflux.service.app.domain.exceptions.CurrencyNotFoundException;
 import ecommerce.webflux.service.app.domain.exceptions.UnavailableCurrencyServiceException;
+import ecommerce.webflux.service.app.domain.model.Amount;
 import ecommerce.webflux.service.app.domain.model.Currency;
 import ecommerce.webflux.service.app.services.CurrencyService;
 import java.util.Optional;
@@ -22,7 +23,7 @@ public class CurrencyServiceImpl implements CurrencyService {
   private final CurrenciesApi currenciesApi;
 
   @Override
-  public Optional<Mono<Currency>> findCurrencyByCode(String currencyCode) throws CurrencyNotFoundException {
+  public Optional<Mono<Amount>> getAmountByCurrencyCode(String currencyCode) throws CurrencyNotFoundException {
 
     try {
       return Optional.of(this.currenciesApi.getCurrencyByCode(currencyCode)
@@ -34,7 +35,7 @@ public class CurrencyServiceImpl implements CurrencyService {
             throw new UnavailableCurrencyServiceException(e);
           })
 
-          .map(currencyMapper::currencyDtoToCurrency));
+          .map(currencyMapper::currencyDtoToAmount));
     } catch (CurrencyNotFoundException currencyNotFoundException) {
       return Optional.empty();
     }

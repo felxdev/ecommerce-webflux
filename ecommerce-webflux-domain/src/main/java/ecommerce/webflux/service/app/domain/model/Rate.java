@@ -16,11 +16,13 @@ public class Rate {
 
   private Integer productId;
 
+  private Integer price;
+
   private LocalDate startDate;
 
   private LocalDate endDate;
 
-  private Amount price;
+  private Amount amount;
 
   private String currencyCode;
 }

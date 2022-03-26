@@ -170,7 +170,6 @@ components:
       - brandId
       - productId
       - endDate
-      - amount
       - currencyCode
       properties:
         id:
@@ -198,15 +197,19 @@ components:
           type: string
           description: ID of the currency in which the price is represented
           example: EUR
+        price:
+          type: integer
+          description: Price of a rate
+          example: 2321
         amount:
           $ref: '#/components/schemas/Amount'
     Amount:
       type: object
       properties:
-        value:
+        price:
           type: integer
           description: monetary value
-          example: 1888
+          example: 2321
         decimals:
           type: integer
           description: decimal

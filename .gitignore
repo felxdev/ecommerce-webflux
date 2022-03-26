@@ -24,3 +24,4 @@ ecommerce-webflux-boot/target/
 ecommerce-webflux-infrastructure/target/maven-archiver/pom.properties
 ecommerce-webflux-api-rest/target/
 ecommerce-webflux-clients/target/
+ecommerce-webflux-clients-rest/target/
