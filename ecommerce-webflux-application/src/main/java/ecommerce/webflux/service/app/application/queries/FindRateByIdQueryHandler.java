@@ -18,28 +18,30 @@ public class FindRateByIdQueryHandler implements QueryHandler<FindRateByIdQuery,
   
   private final CurrencyService currencyService;
 
+  private final FindCurrencyByCodeQueryHandler findCurrencyByCodeQueryHandler;
+
   @Override
   public Mono<Rate> execute(FindRateByIdQuery query) {
 
     Mono<Rate> rate = this.rateRepository.findById(query.getRateId());
+    Mono<Amount> amount = getAndCheckAmount(rate);
 
-    Mono<Mono<Rate>> map = rate.map(r -> {
-
-      String currencyCode = r.getCurrencyCode();
-      Optional<Mono<Amount>> amountByCode = currencyService.getAmountByCurrencyCode(currencyCode);
-
-      if (amountByCode.isEmpty()) {
-        throw new CurrencyNotFoundException(currencyCode);
-      }
-
-      return amountByCode.get();
-
-    }).map(amountMono -> amountMono.zipWith(rate, (am, ra) -> {
-      am.setValue(ra.getPrice());
-      ra.setAmount(am);
-      return ra;
-    }));
-
-    return rate;
+    return rate.zipWith(amount, (r, am) -> {
+      r.setAmount(am);
+      return r;
+    });
   }
+
+  private Mono<Amount> getAndCheckAmount(Mono<Rate> rate) {
+    return rate.map(Rate::getCurrencyCode)
+        .flatMap(s -> {
+          Optional<Mono<Amount>> amountByCode = currencyService.getAmountByCurrencyCode(s);
+
+          if (amountByCode.isEmpty()) {
+            return Mono.error(new CurrencyNotFoundException(s));
+          }
+          return amountByCode.get();
+        });
+  }
+
 }

@@ -10,6 +10,4 @@ public class Amount {
   private String symbol;
 
   private Integer decimals;
-
-  private Integer value;
 }

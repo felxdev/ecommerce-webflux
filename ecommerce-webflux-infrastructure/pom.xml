@@ -9,7 +9,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>${project.parent.artifactId}-infrastructure</artifactId>
+  <artifactId>ecommerce-webflux-infrastructure</artifactId>
 
   <packaging>jar</packaging>
 

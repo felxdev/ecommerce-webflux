@@ -10,7 +10,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>${project.parent.artifactId}-api-rest</artifactId>
+  <artifactId>ecommerce-webflux-api-rest</artifactId>
 
   <packaging>jar</packaging>
 
@@ -74,6 +74,7 @@
       <plugin>
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-maven-plugin</artifactId>
+        <version>5.4.0</version>
         <configuration>
           <generatorName>spring</generatorName>
           <supportingFilesToGenerate>

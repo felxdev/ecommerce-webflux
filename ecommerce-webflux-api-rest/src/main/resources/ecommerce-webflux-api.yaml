@@ -206,10 +206,6 @@ components:
     Amount:
       type: object
       properties:
-        price:
-          type: integer
-          description: monetary value
-          example: 2321
         decimals:
           type: integer
           description: decimal

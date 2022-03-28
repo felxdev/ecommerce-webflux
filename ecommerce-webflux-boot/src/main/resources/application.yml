@@ -3,3 +3,8 @@ spring:
     url: r2dbc:postgresql://localhost:5432/rateservicedb
     username: user
     password: password
+
+ecommerce-webflux-service:
+  rest:
+    client:
+      currency-service-api-rest: http://localhost:7070/
