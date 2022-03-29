@@ -3,11 +3,24 @@ services:
   rate-wiremock:
     image: wiremock/wiremock:latest
     ports:
-    - "7070:8080"
-    - "7443:8443"
+    - '7070:8080'
+    - '7443:8443'
     volumes:
     - ./wiremock/__files:/home/wiremock/__files
     - ./wiremock/mappings:/home/wiremock/mappings
+
+  cacheRedis:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+    - '6379:6379'
+    environment:
+      REDIS_HOST: cache
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: password
+    volumes:
+    - ./data
+
   dbRates:
     image: postgres
     restart: always

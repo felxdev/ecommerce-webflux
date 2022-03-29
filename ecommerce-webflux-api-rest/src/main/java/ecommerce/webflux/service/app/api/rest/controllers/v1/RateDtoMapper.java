@@ -8,7 +8,6 @@ import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValueMappingStrategy;
-import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,8 +15,6 @@ import org.springframework.stereotype.Component;
     nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
     nullValueMappingStrategy = NullValueMappingStrategy.RETURN_NULL)
 public interface RateDtoMapper {
-
-  RateDtoMapper INSTANCE = Mappers.getMapper(RateDtoMapper.class);
 
   Rate rateDtoToRate(RateDto rateDto);
 

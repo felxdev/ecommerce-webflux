@@ -76,8 +76,7 @@ public class RateApiController implements RateApi{
       ServerWebExchange exchange) {
 
     return Mono.just(
-        ResponseEntity.ok()
-            .body(findRatesByProductBrandIdQueryHandler.execute(
+        ResponseEntity.ok().body(findRatesByProductBrandIdQueryHandler.execute(
                 FindRatesByProductBrandIdQuery.builder()
                     .date(LocalDate.from(startDate)).brandId(brandId).productId(productId).build())
         .map(rateDtoMapper::rateToRateDto)))

@@ -1,2 +1,3 @@
+ecommerce\webflux\service\app\conf\CacheConfig.class
 ecommerce\webflux\service\app\EcommerceServiceApplication.class
 ecommerce\webflux\service\app\conf\CurrencyWebClientConfiguration.class

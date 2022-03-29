@@ -4,7 +4,6 @@ import ecommerce.webflux.service.app.clients.controllers.v1.CurrenciesApi;
 import ecommerce.webflux.service.app.domain.exceptions.CurrencyNotFoundException;
 import ecommerce.webflux.service.app.domain.exceptions.UnavailableCurrencyServiceException;
 import ecommerce.webflux.service.app.domain.model.Amount;
-import ecommerce.webflux.service.app.domain.model.Currency;
 import ecommerce.webflux.service.app.services.CurrencyService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +17,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class CurrencyServiceImpl implements CurrencyService {
 
-  private static final CurrencyMapper currencyMapper = CurrencyMapper.INSTANCE;
+  private final CurrencyMapper currencyMapper;
 
   private final CurrenciesApi currenciesApi;
 
@@ -43,7 +42,7 @@ public class CurrencyServiceImpl implements CurrencyService {
   }
 
   @Override
-  public Flux<Currency> findCurrencies() {
-    return currenciesApi.getCurrencies().map(currencyMapper::currencyDtoToCurrency);
+  public Flux<Amount> findCurrencies() {
+    return currenciesApi.getCurrencies().map(currencyMapper::currencyDtoToAmount);
   }
 }

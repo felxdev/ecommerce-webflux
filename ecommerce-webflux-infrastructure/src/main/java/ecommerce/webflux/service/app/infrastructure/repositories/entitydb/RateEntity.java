@@ -1,4 +1,4 @@
-package ecommerce.webflux.service.app.domain.model;
+package ecommerce.webflux.service.app.infrastructure.repositories.entitydb;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -9,7 +9,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 @Data
 @Table(value = "myschema.t_rates")
-public class Rate implements Serializable {
+public class RateEntity implements Serializable {
 
   @Serial
   private static final long serialVersionUID = 1L;
@@ -26,8 +26,6 @@ public class Rate implements Serializable {
   private LocalDate startDate;
 
   private LocalDate endDate;
-
-  private Amount amount;
 
   private String currencyCode;
 }
