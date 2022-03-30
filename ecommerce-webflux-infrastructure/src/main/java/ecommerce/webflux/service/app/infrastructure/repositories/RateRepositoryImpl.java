@@ -8,6 +8,7 @@ import ecommerce.webflux.service.app.repositories.RateRepository;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -30,9 +31,10 @@ public class RateRepositoryImpl implements RateRepository {
   }
 
   @Override
+  @Cacheable(value = "rate")
   public Mono<Rate> findById(String id) {
     return rateRepositoryR2dbc.findById(id)
-        .map(rateEntityMapper::rateEntityToRate);
+        .map(rateEntityMapper::rateEntityToRate).cache();
   }
 
   @Override

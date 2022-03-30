@@ -1,6 +1,7 @@
 package ecommerce.webflux.service.app.infrastructure.repositories.entitydb;
 
 import ecommerce.webflux.service.app.domain.model.Rate;
+import java.io.Serializable;
 import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValueCheckStrategy;

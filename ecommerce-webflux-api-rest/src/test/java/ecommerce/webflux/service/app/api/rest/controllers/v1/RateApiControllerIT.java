@@ -11,9 +11,6 @@ import ecommerce.webflux.service.app.application.commands.RequestRateCommandHand
 import ecommerce.webflux.service.app.application.queries.FindRateByIdQueryHandler;
 import ecommerce.webflux.service.app.application.queries.FindRatesByProductBrandIdQueryHandler;
 import ecommerce.webflux.service.app.domain.model.Rate;
-import ecommerce.webflux.service.app.infrastructure.repositories.RateRepositoryImpl;
-import ecommerce.webflux.service.app.repositories.RateRepository;
-import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,7 +25,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @WebFluxTest
-@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {RateApiController.class})
 class RateApiControllerIT {
 
@@ -151,6 +147,7 @@ class RateApiControllerIT {
         .consumeWith(response -> {
           List<Rate> responseBody = response.getResponseBody();
           assertThat(responseBody).isNotNull();
+          assertThat(responseBody).hasSize(1);
         });
   }
 
