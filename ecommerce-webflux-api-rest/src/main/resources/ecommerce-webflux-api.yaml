@@ -52,7 +52,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Rate'
+              $ref: '#/components/schemas/RateRequest'
         required: true
       responses:
         200:
@@ -147,7 +147,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Rate'
+              $ref: '#/components/schemas/RateRequest'
         required: true
       responses:
         201:
@@ -164,17 +164,16 @@ paths:
           content: {}
 components:
   schemas:
-    Rate:
+    RateRequest:
       type: object
       required:
       - brandId
       - productId
+      - startDate
       - endDate
       - currencyCode
+      - price
       properties:
-        id:
-          type: string
-          example: "1234"
         brandId:
           type: string
           description: Unique brand identifier
@@ -201,15 +200,44 @@ components:
           type: integer
           description: Price of a rate
           example: 2321
+    Rate:
+      type: object
+      required:
+      - brandId
+      - productId
+      - endDate
+      - price
+      properties:
+        id:
+          type: string
+          example: "1234"
+        brandId:
+          type: string
+          description: Unique brand identifier
+          example: "1234"
+        productId:
+          type: string
+          description: Unique product identifier
+          example: "1234"
+        startDate:
+          type: string
+          description: Rate service start date in YYYY-mm-dd format
+          format: date
+          example: "2021-05-24"
+        endDate:
+          type: string
+          description: Rate service end date in YYYY-mm-dd format
+          format: date
+          example: "2021-12-24"
+        price:
+          type: integer
+          description: Price of a rate
+          example: 2321
         amount:
           $ref: '#/components/schemas/Amount'
     Amount:
       type: object
       properties:
-        price:
-          type: integer
-          description: monetary value
-          example: 2321
         decimals:
           type: integer
           description: decimal

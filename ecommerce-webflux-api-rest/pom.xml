@@ -32,12 +32,12 @@
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>ecommerce-webflux-infrastructure</artifactId>
+      <artifactId>${project.parent.artifactId}-infrastructure</artifactId>
       <version>0.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>${project.parent.groupId}</groupId>
-      <artifactId>ecommerce-webflux-domain</artifactId>
+      <artifactId>${project.parent.artifactId}-domain</artifactId>
       <version>0.0.1-SNAPSHOT</version>
     </dependency>
 
@@ -74,7 +74,7 @@
       <plugin>
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-maven-plugin</artifactId>
-        <version>5.1.0</version>
+        <version>5.4.0</version>
         <configuration>
           <generatorName>spring</generatorName>
           <supportingFilesToGenerate>

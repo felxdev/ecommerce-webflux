@@ -5,11 +5,9 @@ import lombok.Data;
 @Data
 public class Amount {
 
-  private String code;
-
   private String symbol;
 
-  private Integer decimals;
+  private String code;
 
-  private Integer value;
+  private Integer decimals;
 }

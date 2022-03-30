@@ -1,11 +1,11 @@
 {
   "request": {
-    "url": "/v1/currencies/EUR",
+    "url": "/v1/currencies/USD",
     "method": "GET"
   },
   "response": {
     "status": 200,
-    "bodyFileName": "currency-service/get_currency_by_code.json",
+    "bodyFileName": "currency-service/get_currency_by_usd_code.json",
     "headers": {
       "Content-Type": "application/json"
     }
