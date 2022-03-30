@@ -1,7 +1,5 @@
 package ecommerce.webflux.service.app.infrastructure.repositories.entitydb;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.time.LocalDate;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -9,10 +7,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 @Data
 @Table(value = "myschema.t_rates")
-public class RateEntity implements Serializable {
-
-  @Serial
-  private static final long serialVersionUID = 1L;
+public class RateEntity {
 
   @Id
   private Integer id;

@@ -7,12 +7,14 @@ import ecommerce.webflux.service.app.infrastructure.repositories.entitydb.RateRe
 import ecommerce.webflux.service.app.repositories.RateRepository;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
 @Repository
+//@ConditionalOnProperty(name = "cache.enabled", havingValue = "true")
 public class RateRepositoryImpl implements RateRepository {
 
   private final RateRepositoryR2dbc rateRepositoryR2dbc;
