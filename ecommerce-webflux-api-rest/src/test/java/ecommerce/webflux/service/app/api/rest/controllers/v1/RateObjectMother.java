@@ -6,6 +6,16 @@ import java.time.LocalDate;
 
 public class RateObjectMother {
 
+  public static Rate rate() {
+    Rate rate = new Rate();
+    rate.setBrandId(1);
+    rate.setProductId(1);
+    rate.setCurrencyCode("EUR");
+    rate.setPrice(1532);
+    rate.setEndDate(LocalDate.of(2023, 12, 23));
+    return rate;
+  }
+
   public static RateDto rateDto() {
     RateDto rateDto = new RateDto();
     rateDto.setBrandId("1");
@@ -15,4 +25,5 @@ public class RateObjectMother {
     rateDto.setEndDate(LocalDate.of(2023, 12, 23));
     return rateDto;
   }
+
 }
