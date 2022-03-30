@@ -7,7 +7,7 @@ import reactor.core.publisher.Mono;
 
 public interface CurrencyService {
 
-  Optional<Mono<Amount>> getAmountByCurrencyCode(String currencyCode);
+  Mono<Amount> getAmountByCurrencyCode(String currencyCode);
   Flux<Amount> findCurrencies();
 
 }

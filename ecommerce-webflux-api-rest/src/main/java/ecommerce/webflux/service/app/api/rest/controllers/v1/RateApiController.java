@@ -1,8 +1,7 @@
 package ecommerce.webflux.service.app.api.rest.controllers.v1;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON;
-
 import ecommerce.webflux.service.app.api.rest.dtos.v1.RateDto;
+import ecommerce.webflux.service.app.api.rest.dtos.v1.RateRequestDto;
 import ecommerce.webflux.service.app.application.commands.DeleteRateByIdCommandHandler;
 import ecommerce.webflux.service.app.application.commands.RequestRateCommandHandler;
 import ecommerce.webflux.service.app.application.queries.FindRateByIdQuery;
@@ -21,7 +20,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -52,9 +50,9 @@ public class RateApiController implements RateApi{
   private final DeleteRateByIdCommandHandler deleteByIdCommandHandler;
 
   @Override
-  public Mono<ResponseEntity<RateDto>> addRate(Mono<RateDto> rateDto, ServerWebExchange exchange) {
+  public Mono<ResponseEntity<RateDto>> addRate(Mono<RateRequestDto> rateDto, ServerWebExchange exchange) {
 
-    return rateDto.map(rateDtoMapper::asRate)
+    return rateDto.map(rateDtoMapper::rateRequestDtoToRate)
         .flatMap(requestRateCommandHandler::executeAndReturn)
         .map(rateDtoMapper::rateToRateDto)
         .map(rDto -> ResponseEntity
@@ -91,10 +89,10 @@ public class RateApiController implements RateApi{
   }
 
   @Override
-  public Mono<ResponseEntity<RateDto>> updateRateById(String id, Mono<RateDto> body, ServerWebExchange exchange) {
+  public Mono<ResponseEntity<RateDto>> updateRateById(String id, Mono<RateRequestDto> body, ServerWebExchange exchange) {
 
     Mono<Rate> rateDb = findRateByIdQueryHandler.execute(FindRateByIdQuery.builder().rateId(id).build());
-    Mono<Rate> rate = body.map(rateDtoMapper::rateDtoToRate);
+    Mono<Rate> rate = body.map(rateDtoMapper::rateRequestDtoToRate);
 
     return rateDb.zipWith(rate, (db, req) -> {
 

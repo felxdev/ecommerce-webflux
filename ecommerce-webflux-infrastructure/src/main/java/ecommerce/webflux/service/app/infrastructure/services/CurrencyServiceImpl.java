@@ -22,23 +22,20 @@ public class CurrencyServiceImpl implements CurrencyService {
   private final CurrenciesApi currenciesApi;
 
   @Override
-  public Optional<Mono<Amount>> getAmountByCurrencyCode(String currencyCode) throws CurrencyNotFoundException {
+  public Mono<Amount> getAmountByCurrencyCode(String currencyCode) throws CurrencyNotFoundException {
 
     try {
-      return Optional.of(this.currenciesApi.getCurrencyByCode(currencyCode)
-
+      return this.currenciesApi.getCurrencyByCode(currencyCode)
           .onErrorResume(e -> {
             if (e instanceof WebClientResponseException er && er.getStatusCode() == HttpStatus.NOT_FOUND) {
               throw new CurrencyNotFoundException(currencyCode);
             }
             throw new UnavailableCurrencyServiceException(e);
-          })
+          }).map(currencyMapper::currencyDtoToAmount);
 
-          .map(currencyMapper::currencyDtoToAmount));
     } catch (CurrencyNotFoundException currencyNotFoundException) {
-      return Optional.empty();
+      return Mono.empty();
     }
-
   }
 
   @Override

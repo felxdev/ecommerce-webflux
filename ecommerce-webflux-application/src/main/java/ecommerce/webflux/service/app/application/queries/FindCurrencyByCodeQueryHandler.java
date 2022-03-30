@@ -3,7 +3,6 @@ package ecommerce.webflux.service.app.application.queries;
 import ecommerce.webflux.service.app.domain.exceptions.CurrencyNotFoundException;
 import ecommerce.webflux.service.app.domain.model.Amount;
 import ecommerce.webflux.service.app.services.CurrencyService;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
@@ -19,12 +18,7 @@ public class FindCurrencyByCodeQueryHandler implements QueryHandler<FindCurrency
 
     String currencyCode = query.getCurrencyCode();
 
-    Optional<Mono<Amount>> amountByCode = currencyService.getAmountByCurrencyCode(currencyCode);
-
-    if (amountByCode.isEmpty()) {
-      return Mono.error(new CurrencyNotFoundException(currencyCode));
-    }
-
-    return amountByCode.get();
+    return currencyService.getAmountByCurrencyCode(currencyCode)
+        .switchIfEmpty(Mono.error(new CurrencyNotFoundException(currencyCode)));
   }
 }

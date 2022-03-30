@@ -8,5 +8,5 @@ import reactor.core.publisher.Flux;
 @Repository
 public interface RateRepositoryR2dbc extends ReactiveCrudRepository<RateEntity, String> {
 
-  Flux<RateEntity> findByProductIdAndBrandIdAndStartDateAfter(String productId, String brandId, LocalDate date);
+  Flux<RateEntity> findByProductIdAndBrandIdAndStartDateGreaterThanEqual(String productId, String brandId, LocalDate date);
 }

@@ -1,6 +1,7 @@
 package ecommerce.webflux.service.app.api.rest.controllers.v1;
 
 import ecommerce.webflux.service.app.api.rest.dtos.v1.RateDto;
+import ecommerce.webflux.service.app.api.rest.dtos.v1.RateRequestDto;
 import ecommerce.webflux.service.app.domain.model.Rate;
 import java.time.LocalDate;
 import javax.validation.constraints.NotNull;
@@ -16,14 +17,7 @@ import org.springframework.stereotype.Component;
     nullValueMappingStrategy = NullValueMappingStrategy.RETURN_NULL)
 public interface RateDtoMapper {
 
-  Rate rateDtoToRate(RateDto rateDto);
-
-  default Rate asRate(@NotNull RateDto rateDto){
-
-    rateDto.setStartDate(LocalDate.now());
-
-    return rateDtoToRate(rateDto);
-  }
+  Rate rateRequestDtoToRate(RateRequestDto rateRequestDto);
 
   RateDto rateToRateDto(Rate rate);
 }

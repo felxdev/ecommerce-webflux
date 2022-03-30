@@ -13,13 +13,11 @@ import ecommerce.webflux.service.app.application.queries.FindRatesByProductBrand
 import ecommerce.webflux.service.app.domain.model.Rate;
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -84,9 +82,9 @@ class RateApiControllerIT {
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType(APPLICATION_JSON)
-        .expectBody(Rate.class)
+        .expectBody(RateDto.class)
         .consumeWith(response -> {
-          Rate responseBody = response.getResponseBody();
+          RateDto responseBody = response.getResponseBody();
           assertThat(responseBody).isNotNull();
         });
   }
@@ -98,6 +96,7 @@ class RateApiControllerIT {
     Rate rate = RateObjectMother.rate();
 
     given(findRateByIdQueryHandler.execute(any())).willReturn(Mono.just(rate));
+    //moquear el save
 
     testClient.put().uri("/v1/rate/3")
         .contentType(APPLICATION_JSON)
