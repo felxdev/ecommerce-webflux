@@ -1,5 +1,6 @@
 package ecommerce.webflux.service.app.application.commands;
 
+import ecommerce.webflux.service.app.domain.model.Amount;
 import ecommerce.webflux.service.app.domain.model.Rate;
 import ecommerce.webflux.service.app.repositories.RateRepository;
 import ecommerce.webflux.service.app.services.CurrencyService;
@@ -24,30 +25,15 @@ public class UpdateCommandHandler implements CommandReturnHandler<UpdateCommand,
   public Mono<Rate> executeAndReturn(UpdateCommand command) {
 
     return rateRepository.findById(command.getId())
-        .zipWith(currencyService.getAmountByCurrencyCode(command.getCurrencyCode()),
+        .zipWith(getAmountByCurrencyCode(command),
             (ra, am) -> {
       ra.setAmount(am);
       ra.setPrice(command.getPrice());
-      ra.setProductId(command.getProductId());
-      ra.setBrandId(command.getBrandId());
-      ra.setStartDate(command.getStartDate());
-      ra.setEndDate(command.getEndDate());
       return ra;
     });
   }
 
-  /*private String[] getNullPropertyNames(Rate req) {
-    final BeanWrapper src = new BeanWrapperImpl(req);
-    var pds = src.getPropertyDescriptors();
-
-    Set<String> emptyNames = new HashSet<>();
-
-    for(PropertyDescriptor pd : pds) {
-      var srcValue = src.getPropertyValue(pd.getName());
-      if (srcValue == null) emptyNames.add(pd.getName());
-    }
-
-    var result = new String[emptyNames.size()];
-    return emptyNames.toArray(result);
-  }*/
+  private Mono<Amount> getAmountByCurrencyCode(UpdateCommand command) {
+    return currencyService.getAmountByCurrencyCode(command.getCurrencyCode());
+  }
 }
