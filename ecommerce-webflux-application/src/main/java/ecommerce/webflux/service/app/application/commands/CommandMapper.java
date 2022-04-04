@@ -13,6 +13,7 @@ public interface CommandMapper {
 
   Rate asRate(AddRateCommand addRateCommand);
 
-  AddRateCommand asRateRequestCommand(Rate rate);
+  AddRateCommand asAddRateCommand(Rate rate);
 
+  UpdateCommand asUpdateCommand(Rate rate);
 }
