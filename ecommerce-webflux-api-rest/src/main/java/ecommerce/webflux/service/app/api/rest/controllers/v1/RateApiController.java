@@ -5,22 +5,17 @@ import ecommerce.webflux.service.app.api.rest.dtos.v1.RateRequestDto;
 import ecommerce.webflux.service.app.application.commands.CommandMapper;
 import ecommerce.webflux.service.app.application.commands.DeleteRateByIdCommandHandler;
 import ecommerce.webflux.service.app.application.commands.DeleteRateCommand;
-import ecommerce.webflux.service.app.application.commands.RequestRateCommandHandler;
+import ecommerce.webflux.service.app.application.commands.AddRateCommandHandler;
+import ecommerce.webflux.service.app.application.commands.UpdateCommand;
+import ecommerce.webflux.service.app.application.commands.UpdateCommandHandler;
 import ecommerce.webflux.service.app.application.queries.FindRateByIdQuery;
 import ecommerce.webflux.service.app.application.queries.FindRateByIdQueryHandler;
 import ecommerce.webflux.service.app.application.queries.FindRatesByProductBrandIdQuery;
 import ecommerce.webflux.service.app.application.queries.FindRatesByProductBrandIdQueryHandler;
-import ecommerce.webflux.service.app.domain.model.Rate;
-import java.beans.PropertyDescriptor;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
-import java.util.HashSet;
-import java.util.Set;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -49,7 +44,9 @@ public class RateApiController implements RateApi{
 
   private final FindRatesByProductBrandIdQueryHandler findRatesByProductBrandIdQueryHandler;
 
-  private final RequestRateCommandHandler requestRateCommandHandler;
+  private final AddRateCommandHandler addRateCommandHandler;
+
+  private final UpdateCommandHandler updateCommandHandler;
 
   private final DeleteRateByIdCommandHandler deleteByIdCommandHandler;
 
@@ -57,7 +54,7 @@ public class RateApiController implements RateApi{
   public Mono<ResponseEntity<RateDto>> addRate(Mono<RateRequestDto> rateDto, ServerWebExchange exchange) {
 
     return rateDto.map(rateDtoMapper::rateRequestDtoToRate)
-        .flatMap(rate -> requestRateCommandHandler.executeAndReturn(commandMapper.asRateRequestCommand(rate)))
+        .flatMap(rate -> addRateCommandHandler.executeAndReturn(commandMapper.asAddRateCommand(rate)))
         .map(rateDtoMapper::rateToRateDto)
         .map(rDto -> ResponseEntity
             .created(URI.create(String.format("/v1/rate/%s", rDto.getId())))
@@ -77,10 +74,9 @@ public class RateApiController implements RateApi{
   public Mono<ResponseEntity<Flux<RateDto>>> findRateByProductAndBrand(OffsetDateTime startDate, String brandId, String productId,
       ServerWebExchange exchange) {
 
-    return Mono.just(
-        ResponseEntity.ok().body(findRatesByProductBrandIdQueryHandler.execute(
-                FindRatesByProductBrandIdQuery.builder()
-                    .date(LocalDate.from(startDate)).brandId(brandId).productId(productId).build())
+    return Mono.just(ResponseEntity.ok()
+            .body(findRatesByProductBrandIdQueryHandler.execute(FindRatesByProductBrandIdQuery
+                    .builder().date(LocalDate.from(startDate)).brandId(brandId).productId(productId).build())
         .map(rateDtoMapper::rateToRateDto)))
         .defaultIfEmpty(ResponseEntity.notFound().build());
   }
@@ -95,33 +91,13 @@ public class RateApiController implements RateApi{
   @Override
   public Mono<ResponseEntity<RateDto>> updateRateById(String id, Mono<RateRequestDto> body, ServerWebExchange exchange) {
 
-    Mono<Rate> rateDb = findRateByIdQueryHandler.execute(FindRateByIdQuery.builder().rateId(id).build());
-    Mono<Rate> rate = body.map(rateDtoMapper::rateRequestDtoToRate);
+    return body.map(rateDtoMapper::rateRequestDtoToRate).flatMap(rate -> {
+      UpdateCommand updateCommand = commandMapper.asUpdateCommand(rate);
+      updateCommand.setId(id);
 
-    return rateDb.zipWith(rate, (db, req) -> {
-
-      BeanUtils.copyProperties(req, db, getNullPropertyNames(req));
-      return db;
-
-    }).flatMap(r -> requestRateCommandHandler.executeAndReturn(commandMapper.asRateRequestCommand(r)))
-        .map(rateDtoMapper::rateToRateDto)
-        .map(rateDto -> ResponseEntity.ok()
-            .body(rateDto))
+      return updateCommandHandler.executeAndReturn(updateCommand);
+    }).map(rateDtoMapper::rateToRateDto)
+        .map(rateDto -> ResponseEntity.ok().body(rateDto))
         .defaultIfEmpty(ResponseEntity.notFound().build());
-  }
-
-  private String[] getNullPropertyNames(Rate req) {
-    final BeanWrapper src = new BeanWrapperImpl(req);
-    var pds = src.getPropertyDescriptors();
-
-    Set<String> emptyNames = new HashSet<>();
-
-    for(PropertyDescriptor pd : pds) {
-      var srcValue = src.getPropertyValue(pd.getName());
-      if (srcValue == null) emptyNames.add(pd.getName());
-    }
-
-    var result = new String[emptyNames.size()];
-    return emptyNames.toArray(result);
   }
 }
