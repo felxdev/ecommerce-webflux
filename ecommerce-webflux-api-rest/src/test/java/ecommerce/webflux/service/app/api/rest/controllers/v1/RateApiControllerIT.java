@@ -7,7 +7,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 import ecommerce.webflux.service.app.api.rest.dtos.v1.RateDto;
 import ecommerce.webflux.service.app.application.commands.DeleteRateByIdCommandHandler;
-import ecommerce.webflux.service.app.application.commands.RequestRateCommandHandler;
+import ecommerce.webflux.service.app.application.commands.AddRateCommandHandler;
 import ecommerce.webflux.service.app.application.queries.FindRateByIdQueryHandler;
 import ecommerce.webflux.service.app.application.queries.FindRatesByProductBrandIdQueryHandler;
 import ecommerce.webflux.service.app.domain.model.Rate;
@@ -33,7 +33,7 @@ class RateApiControllerIT {
   private FindRatesByProductBrandIdQueryHandler findRatesByProductBrandIdQueryHandler;
 
   @MockBean
-  private RequestRateCommandHandler addRateCommandHandler;
+  private AddRateCommandHandler addRateCommandHandler;
 
   @MockBean
   private DeleteRateByIdCommandHandler deleteRateByIdCommandHandler;
