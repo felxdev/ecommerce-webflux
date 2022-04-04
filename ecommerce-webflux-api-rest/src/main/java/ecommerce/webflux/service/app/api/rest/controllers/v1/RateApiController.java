@@ -1,7 +1,10 @@
 package ecommerce.webflux.service.app.api.rest.controllers.v1;
 
+import ecommerce.webflux.service.app.api.rest.dtos.v1.AmountRequestDto;
 import ecommerce.webflux.service.app.api.rest.dtos.v1.RateDto;
 import ecommerce.webflux.service.app.api.rest.dtos.v1.RateRequestDto;
+import ecommerce.webflux.service.app.application.commands.Command;
+import ecommerce.webflux.service.app.application.commands.CommandHandler;
 import ecommerce.webflux.service.app.application.commands.CommandMapper;
 import ecommerce.webflux.service.app.application.commands.DeleteRateByIdCommandHandler;
 import ecommerce.webflux.service.app.application.commands.DeleteRateCommand;
@@ -89,14 +92,12 @@ public class RateApiController implements RateApi{
   }
 
   @Override
-  public Mono<ResponseEntity<RateDto>> updateRateById(String id, Mono<RateRequestDto> body, ServerWebExchange exchange) {
+  public Mono<ResponseEntity<RateDto>> updateRateById(String id, Mono<AmountRequestDto> body, ServerWebExchange exchange) {
 
-    return body.map(rateDtoMapper::rateRequestDtoToRate).flatMap(rate -> {
-      UpdateCommand updateCommand = commandMapper.asUpdateCommand(rate);
-      updateCommand.setId(id);
-
-      return updateCommandHandler.executeAndReturn(updateCommand);
-    }).map(rateDtoMapper::rateToRateDto)
+    return body.flatMap(amountRequest -> updateCommandHandler
+            .executeAndReturn(
+                UpdateCommand.builder().id(id).price(amountRequest.getPrice()).currencyCode(amountRequest.getCode()).build()))
+        .map(rateDtoMapper::rateToRateDto)
         .map(rateDto -> ResponseEntity.ok().body(rateDto))
         .defaultIfEmpty(ResponseEntity.notFound().build());
   }
