@@ -15,7 +15,7 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>${project.parent.artifactId}-api-rest</artifactId>
+      <artifactId>ecommerce-webflux-api-rest</artifactId>
     </dependency>
   </dependencies>
 
