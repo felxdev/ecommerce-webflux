@@ -34,7 +34,7 @@ paths:
         404:
           description: Rate not found
           content: {}
-    put:
+    patch:
       tags:
       - rate
       summary: Updated price rate
@@ -52,7 +52,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RateRequest'
+              $ref: '#/components/schemas/AmountRequest'
         required: true
       responses:
         200:
@@ -235,6 +235,17 @@ components:
           example: 2321
         amount:
           $ref: '#/components/schemas/Amount'
+    AmountRequest:
+      type: object
+      properties:
+        price:
+          type: integer
+          description: Integer monetary value
+          example: 2321
+        code:
+          type: string
+          description: ISO currency code
+          example: EUR
     Amount:
       type: object
       properties:
