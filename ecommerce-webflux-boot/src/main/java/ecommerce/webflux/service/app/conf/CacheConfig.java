@@ -1,20 +1,13 @@
 package ecommerce.webflux.service.app.conf;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.HashMap;
-import java.util.Map;
-import org.redisson.Redisson;
-import org.redisson.RedissonBatch;
-import org.redisson.RedissonReactive;
-import org.redisson.api.RedissonClient;
-import org.redisson.api.RedissonReactiveClient;
-import org.redisson.codec.JsonJacksonCodec;
-import org.redisson.config.Config;
-import org.redisson.reactive.RedissonBatchReactive;
-import org.redisson.spring.cache.RedissonSpringCacheManager;
-import org.springframework.cache.CacheManager;
+import ecommerce.webflux.service.app.domain.model.Rate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
+import org.springframework.data.redis.core.ReactiveRedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
 public class CacheConfig {
@@ -35,11 +28,11 @@ public class CacheConfig {
   }*/
 
 
-  @Bean
+  /*@Bean
   public CacheManager cacheManager(RedissonReactiveClient redissonClient) {
     Map<String, CacheConfig> config = new HashMap<>();
     config.put("rate", new CacheConfig());
-    return new RedissonSpringCacheManager(redissonClient);
+    return new RedissonSpringCacheManager(redissonClient.get);
   }
 
   @Bean(destroyMethod = "shutdown")
@@ -53,5 +46,18 @@ public class CacheConfig {
     RedissonClient redissonClient = Redisson.create(config);
 
     return redissonClient.reactive();
+  }*/
+
+  @Bean
+  public ReactiveRedisTemplate<String, Rate> reactiveRedisTemplate(
+      ReactiveRedisConnectionFactory factory) {
+    StringRedisSerializer keySerializer = new StringRedisSerializer();
+    Jackson2JsonRedisSerializer<Rate> valueSerializer =
+        new Jackson2JsonRedisSerializer<>(Rate.class);
+    RedisSerializationContext.RedisSerializationContextBuilder<String, Rate> builder =
+        RedisSerializationContext.newSerializationContext(keySerializer);
+    RedisSerializationContext<String, Rate> context =
+        builder.value(valueSerializer).build();
+    return new ReactiveRedisTemplate<>(factory, context);
   }
 }

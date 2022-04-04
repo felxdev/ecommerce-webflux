@@ -1,6 +1,8 @@
 package ecommerce.webflux.service.app.application.commands;
 
-public interface CommandReturnHandler<T, V> extends CommandHandler<T> {
+import reactor.core.CorePublisher;
+
+public interface CommandReturnHandler<T extends Command, V extends CorePublisher<?>> extends CommandHandler<T> {
 
   V executeAndReturn(T command);
 }

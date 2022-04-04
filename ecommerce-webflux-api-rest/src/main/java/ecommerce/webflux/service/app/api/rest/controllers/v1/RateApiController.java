@@ -2,7 +2,9 @@ package ecommerce.webflux.service.app.api.rest.controllers.v1;
 
 import ecommerce.webflux.service.app.api.rest.dtos.v1.RateDto;
 import ecommerce.webflux.service.app.api.rest.dtos.v1.RateRequestDto;
+import ecommerce.webflux.service.app.application.commands.CommandMapper;
 import ecommerce.webflux.service.app.application.commands.DeleteRateByIdCommandHandler;
+import ecommerce.webflux.service.app.application.commands.DeleteRateCommand;
 import ecommerce.webflux.service.app.application.commands.RequestRateCommandHandler;
 import ecommerce.webflux.service.app.application.queries.FindRateByIdQuery;
 import ecommerce.webflux.service.app.application.queries.FindRateByIdQueryHandler;
@@ -41,6 +43,8 @@ public class RateApiController implements RateApi{
 
   private final RateDtoMapper rateDtoMapper;
 
+  private final CommandMapper commandMapper;
+
   private final FindRateByIdQueryHandler findRateByIdQueryHandler;
 
   private final FindRatesByProductBrandIdQueryHandler findRatesByProductBrandIdQueryHandler;
@@ -53,7 +57,7 @@ public class RateApiController implements RateApi{
   public Mono<ResponseEntity<RateDto>> addRate(Mono<RateRequestDto> rateDto, ServerWebExchange exchange) {
 
     return rateDto.map(rateDtoMapper::rateRequestDtoToRate)
-        .flatMap(requestRateCommandHandler::executeAndReturn)
+        .flatMap(rate -> requestRateCommandHandler.executeAndReturn(commandMapper.asRateRequestCommand(rate)))
         .map(rateDtoMapper::rateToRateDto)
         .map(rDto -> ResponseEntity
             .created(URI.create(String.format("/v1/rate/%s", rDto.getId())))
@@ -83,7 +87,7 @@ public class RateApiController implements RateApi{
 
   @Override
   public Mono<ResponseEntity<Void>> deleteById(String id, ServerWebExchange exchange) {
-    return deleteByIdCommandHandler.executeAndReturn(id)
+    return deleteByIdCommandHandler.executeAndReturn(DeleteRateCommand.builder().id(id).build())
         .thenReturn(new ResponseEntity<Void>(HttpStatus.NO_CONTENT))
         .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
   }
@@ -99,7 +103,7 @@ public class RateApiController implements RateApi{
       BeanUtils.copyProperties(req, db, getNullPropertyNames(req));
       return db;
 
-    }).flatMap(requestRateCommandHandler::executeAndReturn)
+    }).flatMap(r -> requestRateCommandHandler.executeAndReturn(commandMapper.asRateRequestCommand(r)))
         .map(rateDtoMapper::rateToRateDto)
         .map(rateDto -> ResponseEntity.ok()
             .body(rateDto))

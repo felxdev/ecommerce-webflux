@@ -29,10 +29,10 @@ public class RateRepositoryImpl implements RateRepository {
   }
 
   @Override
-  @Cacheable(value = "rate")
+//  @Cacheable(value = "rate")
   public Mono<Rate> findById(String id) {
     return rateRepositoryR2dbc.findById(id)
-        .map(rateEntityMapper::rateEntityToRate).cache();
+        .map(rateEntityMapper::rateEntityToRate)/*.cache()*/;
   }
 
   @Override

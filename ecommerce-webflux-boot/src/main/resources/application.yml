@@ -11,3 +11,5 @@ ecommerce-webflux-service:
 
 cache:
   enabled: true
+
+redis
