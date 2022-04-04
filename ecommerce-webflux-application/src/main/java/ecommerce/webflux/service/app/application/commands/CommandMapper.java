@@ -11,7 +11,8 @@ import org.mapstruct.NullValueMappingStrategy;
     nullValueMappingStrategy = NullValueMappingStrategy.RETURN_NULL)
 public interface CommandMapper {
 
-  Rate asRate(RateRequestCommand rateRequestCommand);
+  Rate asRate(AddRateCommand addRateCommand);
 
-  RateRequestCommand asRateRequestCommand(Rate rate);
+  AddRateCommand asRateRequestCommand(Rate rate);
+
 }

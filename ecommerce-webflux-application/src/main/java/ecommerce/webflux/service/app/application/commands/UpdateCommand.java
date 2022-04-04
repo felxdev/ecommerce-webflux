@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class RateRequestCommand implements Command{
+public class UpdateCommand implements Command{
 
   private String id;
 

@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 
 @Component
 @RequiredArgsConstructor
-public class RequestRateCommandHandler implements CommandReturnHandler<RateRequestCommand, Mono<Rate>> {
+public class AddRateCommandHandler implements CommandReturnHandler<AddRateCommand, Mono<Rate>> {
 
   private final RateRepository rateRepository;
 
@@ -23,19 +23,19 @@ public class RequestRateCommandHandler implements CommandReturnHandler<RateReque
 
 
   @Override
-  public void execute(RateRequestCommand rateRequestCommand) {
-    this.executeAndReturn(rateRequestCommand);
+  public void execute(AddRateCommand addRateCommand) {
+    this.executeAndReturn(addRateCommand);
   }
 
   @Override
-  public Mono<Rate> executeAndReturn(RateRequestCommand rateRequestCommand) {
+  public Mono<Rate> executeAndReturn(AddRateCommand addRateCommand) {
 
 
-    if (ObjectUtils.isEmpty(rateRequestCommand)) {
+    if (ObjectUtils.isEmpty(addRateCommand)) {
       throw new RateInvalidDataException("Error in request rate, data is null.");
     }
 
-    Mono<Rate> saveRate = rateRepository.save(commandMapper.asRate(rateRequestCommand));
+    Mono<Rate> saveRate = rateRepository.save(commandMapper.asRate(addRateCommand));
     Mono<Amount> amount = saveRate.flatMap(
         ra -> currencyService.getAmountByCurrencyCode(ra.getCurrencyCode()));
 
