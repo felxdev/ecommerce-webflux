@@ -24,18 +24,9 @@ public class CurrencyServiceImpl implements CurrencyService {
   @Override
   public Mono<Amount> getAmountByCurrencyCode(String currencyCode) throws CurrencyNotFoundException {
 
-    try {
       return this.currenciesApi.getCurrencyByCode(currencyCode)
-          .onErrorResume(e -> {
-            if (e instanceof WebClientResponseException er && er.getStatusCode() == HttpStatus.NOT_FOUND) {
-              throw new CurrencyNotFoundException(currencyCode);
-            }
-            throw new UnavailableCurrencyServiceException(e);
-          }).map(currencyMapper::currencyDtoToAmount);
-
-    } catch (CurrencyNotFoundException currencyNotFoundException) {
-      return Mono.empty();
-    }
+          .map(currencyMapper::currencyDtoToAmount)
+          .switchIfEmpty(Mono.error(new CurrencyNotFoundException(currencyCode)));
   }
 
   @Override
