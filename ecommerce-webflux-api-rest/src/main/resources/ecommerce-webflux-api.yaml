@@ -236,6 +236,9 @@ components:
         amount:
           $ref: '#/components/schemas/Amount'
     AmountRequest:
+      required:
+      - price
+      - code
       type: object
       properties:
         price:
@@ -261,3 +264,15 @@ components:
           type: string
           description: Symbol currency
           example: €
+    Error:
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The error code.
+        message:
+          type: string
+          description: The error message.

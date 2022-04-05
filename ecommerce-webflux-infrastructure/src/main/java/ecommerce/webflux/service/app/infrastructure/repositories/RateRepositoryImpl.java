@@ -1,5 +1,6 @@
 package ecommerce.webflux.service.app.infrastructure.repositories;
 
+import ecommerce.webflux.service.app.domain.exceptions.RateNotFoundException;
 import ecommerce.webflux.service.app.domain.model.Rate;
 import ecommerce.webflux.service.app.infrastructure.repositories.entitydb.RateEntity;
 import ecommerce.webflux.service.app.infrastructure.repositories.entitydb.RateEntityMapper;
@@ -7,7 +8,6 @@ import ecommerce.webflux.service.app.infrastructure.repositories.entitydb.RateRe
 import ecommerce.webflux.service.app.repositories.RateRepository;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -29,10 +29,10 @@ public class RateRepositoryImpl implements RateRepository {
   }
 
   @Override
-//  @Cacheable(value = "rate")
-  public Mono<Rate> findById(String id) {
+  public Mono<Rate> findById(String id) throws RateNotFoundException {
     return rateRepositoryR2dbc.findById(id)
-        .map(rateEntityMapper::rateEntityToRate)/*.cache()*/;
+        .map(rateEntityMapper::rateEntityToRate)
+        .switchIfEmpty(Mono.error(new RateNotFoundException(id)));
   }
 
   @Override
