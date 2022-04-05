@@ -250,6 +250,10 @@ components:
           description: ISO currency code
           example: EUR
     Amount:
+      required:
+      - decimals
+      - code
+      - symbol
       type: object
       properties:
         decimals:

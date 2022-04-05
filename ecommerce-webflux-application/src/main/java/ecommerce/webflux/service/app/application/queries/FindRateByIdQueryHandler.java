@@ -1,5 +1,7 @@
 package ecommerce.webflux.service.app.application.queries;
 
+import ecommerce.webflux.service.app.domain.exceptions.CurrencyNotFoundException;
+import ecommerce.webflux.service.app.domain.model.Amount;
 import ecommerce.webflux.service.app.domain.model.Rate;
 import ecommerce.webflux.service.app.repositories.RateRepository;
 import ecommerce.webflux.service.app.services.CurrencyService;
@@ -18,12 +20,15 @@ public class FindRateByIdQueryHandler implements QueryHandler<FindRateByIdQuery,
   @Override
   public Mono<Rate> execute(FindRateByIdQuery query) {
 
-    return rateRepository.findById(query.getRateId()).log()
-        .zipWhen(rate -> currencyService.getAmountByCurrencyCode(rate.getCurrencyCode()), (ra, am) -> {
+    return rateRepository.findById(query.getRateId())
+        .zipWhen(this::getAmountByCurrencyCode, (ra, am) -> {
               ra.setAmount(am);
               return ra;
-            }
-        );
+            });
+  }
+
+  private Mono<Amount> getAmountByCurrencyCode(Rate rate) {
+    return currencyService.getAmountByCurrencyCode(rate.getCurrencyCode());
   }
 
 }

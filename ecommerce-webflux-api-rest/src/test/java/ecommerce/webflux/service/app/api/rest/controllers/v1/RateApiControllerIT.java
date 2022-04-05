@@ -5,12 +5,17 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
+import ecommerce.webflux.service.app.api.rest.dtos.v1.AmountRequestDto;
 import ecommerce.webflux.service.app.api.rest.dtos.v1.RateDto;
-import ecommerce.webflux.service.app.application.commands.DeleteRateByIdCommandHandler;
 import ecommerce.webflux.service.app.application.commands.AddRateCommandHandler;
+import ecommerce.webflux.service.app.application.commands.CommandMapperImpl;
+import ecommerce.webflux.service.app.application.commands.DeleteRateByIdCommandHandler;
+import ecommerce.webflux.service.app.application.commands.UpdateCommandHandler;
 import ecommerce.webflux.service.app.application.queries.FindRateByIdQueryHandler;
 import ecommerce.webflux.service.app.application.queries.FindRatesByProductBrandIdQueryHandler;
+import ecommerce.webflux.service.app.domain.model.Amount;
 import ecommerce.webflux.service.app.domain.model.Rate;
+import ecommerce.webflux.service.app.services.CurrencyService;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +42,15 @@ class RateApiControllerIT {
 
   @MockBean
   private DeleteRateByIdCommandHandler deleteRateByIdCommandHandler;
+
+  @MockBean
+  private UpdateCommandHandler updateCommandHandler;
+
+  @MockBean
+  private CurrencyService currencyService;
+
+  @SpyBean
+  private CommandMapperImpl commandMapper;
 
   @SpyBean
   private RateDtoMapperImpl rateDtoMapper;
@@ -92,16 +106,19 @@ class RateApiControllerIT {
   @Test
   void updateRateById_ShouldReturnRateUpdated_WhenSuccess() {
 
+    AmountRequestDto amountRequestDto = RateObjectMother.amountRequestDto();
+    Amount amount = RateObjectMother.amount();
     RateDto rateDto = RateObjectMother.rateDto();
     Rate rate = RateObjectMother.rate();
+    rate.setId(3);
 
-    given(findRateByIdQueryHandler.execute(any())).willReturn(Mono.just(rate));
-    //moquear el save
+    given(updateCommandHandler.executeAndReturn(any())).willReturn(Mono.just(rate));
+    given(currencyService.getAmountByCurrencyCode(any())).willReturn(Mono.just(amount));
 
     testClient.put().uri("/v1/rate/3")
         .contentType(APPLICATION_JSON)
         .accept(APPLICATION_JSON)
-        .body(Mono.just(rateDto), RateDto.class)
+        .body(Mono.just(amountRequestDto), AmountRequestDto.class)
         .exchange()
         .expectStatus().isOk()
         .expectHeader().contentType(APPLICATION_JSON)
