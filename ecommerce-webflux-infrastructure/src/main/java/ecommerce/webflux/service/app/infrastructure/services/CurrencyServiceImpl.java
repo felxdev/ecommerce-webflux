@@ -2,14 +2,10 @@ package ecommerce.webflux.service.app.infrastructure.services;
 
 import ecommerce.webflux.service.app.clients.controllers.v1.CurrenciesApi;
 import ecommerce.webflux.service.app.domain.exceptions.CurrencyNotFoundException;
-import ecommerce.webflux.service.app.domain.exceptions.UnavailableCurrencyServiceException;
 import ecommerce.webflux.service.app.domain.model.Amount;
 import ecommerce.webflux.service.app.services.CurrencyService;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 

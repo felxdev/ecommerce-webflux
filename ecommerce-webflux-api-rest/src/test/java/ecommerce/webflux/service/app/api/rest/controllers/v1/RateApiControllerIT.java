@@ -7,6 +7,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 import ecommerce.webflux.service.app.api.rest.dtos.v1.AmountRequestDto;
 import ecommerce.webflux.service.app.api.rest.dtos.v1.RateDto;
+import ecommerce.webflux.service.app.api.rest.dtos.v1.RateRequestDto;
 import ecommerce.webflux.service.app.application.commands.AddRateCommandHandler;
 import ecommerce.webflux.service.app.application.commands.CommandMapperImpl;
 import ecommerce.webflux.service.app.application.commands.DeleteRateByIdCommandHandler;
@@ -15,7 +16,7 @@ import ecommerce.webflux.service.app.application.queries.FindRateByIdQueryHandle
 import ecommerce.webflux.service.app.application.queries.FindRatesByProductBrandIdQueryHandler;
 import ecommerce.webflux.service.app.domain.model.Amount;
 import ecommerce.webflux.service.app.domain.model.Rate;
-import ecommerce.webflux.service.app.services.CurrencyService;
+import ecommerce.webflux.service.app.infrastructure.services.CurrencyServiceImpl;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ class RateApiControllerIT {
   private UpdateCommandHandler updateCommandHandler;
 
   @MockBean
-  private CurrencyService currencyService;
+  private CurrencyServiceImpl currencyService;
 
   @SpyBean
   private CommandMapperImpl commandMapper;
@@ -59,9 +60,9 @@ class RateApiControllerIT {
   private WebTestClient testClient;
 
   @Test
-  void addRate_ShouldReturnCreated_WhenSucess() {
+  void addRate_ShouldReturnCreated_WhenSuccess() {
 
-    RateDto rateDto = RateObjectMother.rateDto();
+    RateRequestDto rateRequestDto = RateObjectMother.rateRequestDto();
     Rate rate = RateObjectMother.rate();
 
     given(addRateCommandHandler.executeAndReturn(any())).willReturn(Mono.just(rate));
@@ -69,7 +70,7 @@ class RateApiControllerIT {
     testClient.post().uri("/v1/rate/")
         .contentType(APPLICATION_JSON)
         .accept(APPLICATION_JSON)
-        .body(Mono.just(rateDto), RateDto.class)
+        .body(Mono.just(rateRequestDto), RateRequestDto.class)
         .exchange()
         .expectStatus().isCreated()
         .expectHeader().contentType(APPLICATION_JSON)
@@ -77,9 +78,9 @@ class RateApiControllerIT {
         .consumeWith(response -> {
           RateDto responseBody = response.getResponseBody();
           assertThat(responseBody).isNotNull();
-          assertThat(responseBody.getPrice()).isEqualTo(1532);
-          assertThat(responseBody.getBrandId()).isEqualTo("1");
-          assertThat(responseBody.getProductId()).isEqualTo("1");
+          assertThat(responseBody.getPrice()).isEqualTo(rateRequestDto.getPrice());
+          assertThat(responseBody.getBrandId()).isEqualTo(rateRequestDto.getBrandId());
+          assertThat(responseBody.getProductId()).isEqualTo(rateRequestDto.getProductId());
         });
   }
 
@@ -108,14 +109,13 @@ class RateApiControllerIT {
 
     AmountRequestDto amountRequestDto = RateObjectMother.amountRequestDto();
     Amount amount = RateObjectMother.amount();
-    RateDto rateDto = RateObjectMother.rateDto();
     Rate rate = RateObjectMother.rate();
     rate.setId(3);
 
     given(updateCommandHandler.executeAndReturn(any())).willReturn(Mono.just(rate));
     given(currencyService.getAmountByCurrencyCode(any())).willReturn(Mono.just(amount));
 
-    testClient.put().uri("/v1/rate/3")
+    testClient.patch().uri("/v1/rate/3")
         .contentType(APPLICATION_JSON)
         .accept(APPLICATION_JSON)
         .body(Mono.just(amountRequestDto), AmountRequestDto.class)
@@ -126,14 +126,12 @@ class RateApiControllerIT {
         .consumeWith(consume -> {
           RateDto responseRate = consume.getResponseBody();
           assertThat(responseRate).isNotNull();
-          assertThat(responseRate.getProductId()).isEqualTo(rateDto.getProductId());
-          assertThat(responseRate.getPrice()).isEqualTo(rateDto.getPrice());
-          assertThat(responseRate.getBrandId()).isEqualTo(rateDto.getBrandId());
+          assertThat(responseRate.getPrice()).isEqualTo(amountRequestDto.getPrice());
         });
   }
 
   @Test
-  void deleteById_SouldReturnNoContent_WhenRateIsDeleted() {
+  void deleteById_ShouldReturnNoContent_WhenRateIsDeleted() {
 
     given(deleteRateByIdCommandHandler.executeAndReturn(any())).willReturn(Mono.empty());
 

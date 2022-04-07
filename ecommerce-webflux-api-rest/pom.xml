@@ -50,7 +50,7 @@
     <dependency>
       <groupId>io.swagger.parser.v3</groupId>
       <artifactId>swagger-parser-v3</artifactId>
-      <version>2.0.30</version>
+      <version>2.0.31</version>
     </dependency>
     <dependency>
       <groupId>org.hibernate</groupId>
@@ -60,12 +60,12 @@
     <dependency>
       <groupId>org.openapitools</groupId>
       <artifactId>jackson-databind-nullable</artifactId>
-      <version>0.2.1</version>
+      <version>0.2.2</version>
     </dependency>
     <dependency>
       <groupId>org.openapitools</groupId>
       <artifactId>openapi-generator</artifactId>
-      <version>5.2.1</version>
+      <version>5.4.0</version>
     </dependency>
   </dependencies>
 

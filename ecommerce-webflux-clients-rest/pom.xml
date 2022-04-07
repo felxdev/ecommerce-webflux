@@ -100,6 +100,9 @@
             <generateApiTests>true</generateApiTests>
             <useBeanValidation>true</useBeanValidation>
             <performBeanValidation>true</performBeanValidation>
+            <additionalProperties>
+              <additionalProperty>modelNamePrefix=Dto</additionalProperty>
+            </additionalProperties>
             <useTags>true</useTags>
           </configOptions>
         </configuration>
